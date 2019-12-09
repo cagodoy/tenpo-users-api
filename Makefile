@@ -13,11 +13,11 @@ run r:
 
 build b:
 	@echo "[build] Building service..."
-	@cd cmd/server && go build -o $(BIN)
+	@cd cmd/server && go build -o $(BIN)-darwin
 
 linux l:
 	@echo "[build-linux] Building service..."
-	@cd cmd/server && GOOS=linux GOARCH=amd64 go build -o $(BIN)
+	@cd cmd/server && GOOS=linux GOARCH=amd64 go build -o $(BIN)-linux
 
 wait-db wd:
 	@cd cmd/wait-db && GOOS=linux GOARCH=amd64 go build -o $(BIN_PATH)/wait-db 
