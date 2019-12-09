@@ -25,8 +25,8 @@ func New(store database.Store) *Service {
 	}
 }
 
-// Get Gets a user by ID.
-func (us *Service) Get(ctx context.Context, gr *pb.UserGetRequest) (*pb.UserGetResponse, error) {
+// UserGet Gets a user by ID.
+func (us *Service) UserGet(ctx context.Context, gr *pb.UserGetRequest) (*pb.UserGetResponse, error) {
 	id := gr.GetUserId()
 	fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][Get][Request] id = %v", id))
 
@@ -55,8 +55,8 @@ func (us *Service) Get(ctx context.Context, gr *pb.UserGetRequest) (*pb.UserGetR
 	return res, nil
 }
 
-// GetByEmail get a user by Email
-func (us *Service) GetByEmail(ctx context.Context, gr *pb.UserGetByEmailRequest) (*pb.UserGetByEmailResponse, error) {
+// UserGetByEmail get a user by Email
+func (us *Service) UserGetByEmail(ctx context.Context, gr *pb.UserGetByEmailRequest) (*pb.UserGetByEmailResponse, error) {
 	email := gr.GetEmail()
 	fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][GetByEmail][Request] email = %v", email))
 
@@ -95,8 +95,8 @@ func (us *Service) GetByEmail(ctx context.Context, gr *pb.UserGetByEmailRequest)
 	return res, nil
 }
 
-// Create creates a new user into database.
-func (us *Service) Create(ctx context.Context, gr *pb.UserCreateRequest) (*pb.UserCreateResponse, error) {
+// UserCreate creates a new user into database.
+func (us *Service) UserCreate(ctx context.Context, gr *pb.UserCreateRequest) (*pb.UserCreateResponse, error) {
 	fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][Create][Request] data = %v", gr.GetData()))
 
 	email := gr.GetData().GetEmail()
@@ -159,7 +159,7 @@ func (us *Service) Create(ctx context.Context, gr *pb.UserCreateRequest) (*pb.Us
 			Password: string(hashedPassword),
 		}
 
-		if err := us.usersSvc.Create(user); err != nil {
+		if err := us.usersSvc.UserCreate(user); err != nil {
 			fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][Create][Error] %v", err))
 			return &pb.UserCreateResponse{
 				Meta: nil,
@@ -189,8 +189,8 @@ func (us *Service) Create(ctx context.Context, gr *pb.UserCreateRequest) (*pb.Us
 	return res, nil
 }
 
-// VerifyPassword ...
-func (us *Service) VerifyPassword(ctx context.Context, gr *pb.UserVerifyPasswordRequest) (*pb.UserVerifyPasswordResponse, error) {
+// UserVerifyPassword ...
+func (us *Service) UserVerifyPassword(ctx context.Context, gr *pb.UserVerifyPasswordRequest) (*pb.UserVerifyPasswordResponse, error) {
 	fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][VerifyPassword][Request] email = %v password = %v", gr.GetEmail(), gr.GetPassword()))
 	email := gr.GetEmail()
 	if email == "" {
