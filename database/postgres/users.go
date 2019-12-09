@@ -13,8 +13,8 @@ type UserStore struct {
 	Store *sqlx.DB
 }
 
-// Get ...
-func (us *UserStore) Get(q *users.Query) (*users.User, error) {
+// UserGet ...
+func (us *UserStore) UserGet(q *users.Query) (*users.User, error) {
 	query := squirrel.Select("*").From("users").Where("deleted_at is null")
 
 	if q.ID == "" && q.Email == "" {
@@ -44,8 +44,8 @@ func (us *UserStore) Get(q *users.Query) (*users.User, error) {
 	return c, nil
 }
 
-// Create ...
-func (us *UserStore) Create(u *users.User) error {
+// UserCreate ...
+func (us *UserStore) UserCreate(u *users.User) error {
 
 	sql, args, err := squirrel.
 		Insert("users").

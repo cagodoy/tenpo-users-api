@@ -8,8 +8,8 @@ import (
 
 // Store ...
 type Store interface {
-	Get(*users.Query) (*users.User, error)
-	Create(*users.User) error
+	UserGet(*users.Query) (*users.User, error)
+	UserCreate(*users.User) error
 
 	// TODO(ca): below methods are not implemented
 	// List() ([]*users.User, error)
