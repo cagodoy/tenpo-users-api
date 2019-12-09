@@ -5,26 +5,25 @@ volumes:
     driver: local
 
 services:
-	#
-	# Users Service
-	#
-	users-api:
-		container_name: users-api
-		image: .
-		ports:
-			- "3040:3040"
-		environment:
-			- POSTGRES_DSN=postgres://postgres:postgres@users-postgres:5432/postgres?sslmode=disable
-			- PORT=3040
-		depends_on:
-			- postgres
-		links:
-			- postgres
-	users-postgres:
-		container_name: users-postgres
-		image: postgres
-		volumes:
-		- users-postgres-data:/var/lib/postgresql/data
-		ports:
-		- 5432:5432
-
+  #
+  # USERS SERVICE
+  #
+  users-postgres:
+    container_name: postgres
+    image: postgres
+    volumes:
+      - users-postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  users-api:
+    container_name: users-api
+    build: .
+    ports:
+      - "5020:5020"
+    environment:
+      - POSTGRES_DSN=postgres://postgres:postgres@users-postgres:5432/postgres?sslmode=disable
+      - PORT=5020
+    depends_on:
+      - users-postgres
+    links:
+      - users-postgres
