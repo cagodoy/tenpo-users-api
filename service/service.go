@@ -23,7 +23,7 @@ func (us *Users) GetByID(id string) (*users.User, error) {
 		ID: id,
 	}
 
-	return us.Store.Get(q)
+	return us.Store.UserGet(q)
 }
 
 // GetByEmail ...
@@ -32,10 +32,10 @@ func (us *Users) GetByEmail(email string) (*users.User, error) {
 		Email: email,
 	}
 
-	return us.Store.Get(q)
+	return us.Store.UserGet(q)
 }
 
-// Create ...
-func (us *Users) Create(u *users.User) error {
-	return us.Store.Create(u)
+// UserCreate ...
+func (us *Users) UserCreate(u *users.User) error {
+	return us.Store.UserCreate(u)
 }
