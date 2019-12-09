@@ -38,7 +38,7 @@ func main() {
 	srv := grpc.NewServer()
 	svc := usersSvc.New(pgSvc)
 
-	pb.RegisterUsersServiceServer(srv, svc)
+	pb.RegisterUserServiceServer(srv, svc)
 	reflection.Register(srv)
 
 	log.Println("Starting Users service...")
