@@ -1,5 +1,8 @@
 # Base container for compile service
-FROM golang AS builder
+FROM golang:alpine AS builder
+
+# Install dependencies
+RUN apk add make
 
 # Go to builder workdir
 WORKDIR /go/src/github.com/cagodoy/tenpo-users-api/
@@ -14,8 +17,9 @@ RUN go mod download
 # Copy all source code
 COPY . .
 
+
 # Compile service
-RUN cd cmd/server && GOOS=linux GOARCH=amd64 go build -o ../../bin
+RUN make linux
 
 #####################################################################
 #####################################################################
@@ -39,4 +43,4 @@ COPY database/migrations/* /src/tenpo-users-api/migrations/
 EXPOSE 5020
 
 # Run service
-CMD ["/bin/sh", "-l", "-c", "wait-db && cd /src/tenpo-users-api/migrations/ && goose postgres ${POSTGRES_DNS} up && tenpo-users-api"]
+CMD ["/bin/sh", "-l", "-c", "wait-db && cd /src/tenpo-users-api/migrations/ && goose postgres ${POSTGRES_DSN} up && tenpo-users-api"]
