@@ -10,7 +10,7 @@ services:
 	#
 	users-api:
 		container_name: users-api
-		image: src/users-api
+		image: .
 		ports:
 			- "3040:3040"
 		environment:
@@ -21,10 +21,10 @@ services:
 		links:
 			- postgres
 	users-postgres:
-    container_name: users-postgres
-    image: postgres
-    volumes:
-      - users-postgres-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
+		container_name: users-postgres
+		image: postgres
+		volumes:
+		- users-postgres-data:/var/lib/postgresql/data
+		ports:
+		- 5432:5432
 
