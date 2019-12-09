@@ -22,15 +22,15 @@ func main() {
 
 	for loop {
 		log.Println("Init wait for pg")
-		time.Sleep(3 * time.Second)
-		db, err := sqlx.Connect("postgres", postgresDSN)
-		if err != nil {
+		time.Sleep(7 * time.Second)
+		database, err := sqlx.Connect("postgres", postgresDSN)
+		if err == nil {
+			if _, err := database.Query("SELECT NOW()"); err == nil {
+				loop = false
+			}
+		} else {
 			log.Println("PG DSN ", postgresDSN)
-			log.Fatalf("Failed connect to postgres: %v", err)
-		}
-
-		if _, err := db.Query("SELECT NOW()"); err == nil {
-			loop = false
+			log.Println("Failed connect to postgres: ", err.Error())
 		}
 	}
 	log.Println("DB ready")
