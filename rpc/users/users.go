@@ -159,7 +159,7 @@ func (us *Service) UserCreate(ctx context.Context, gr *pb.UserCreateRequest) (*p
 			Password: string(hashedPassword),
 		}
 
-		if err := us.usersSvc.UserCreate(user); err != nil {
+		if err := us.usersSvc.Create(user); err != nil {
 			fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][Create][Error] %v", err))
 			return &pb.UserCreateResponse{
 				Meta: nil,
