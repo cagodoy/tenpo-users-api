@@ -4,6 +4,7 @@ CREATE TABLE users (
   id uuid primary key default gen_random_uuid() UNIQUE,
   email varchar(255)  NOT NULL UNIQUE,
   name varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
   deleted_at timestamptz
