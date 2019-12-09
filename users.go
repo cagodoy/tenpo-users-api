@@ -20,7 +20,7 @@ type User struct {
 // Service ...
 type Service interface {
 	Getter
-	Create(*User) error
+	UserCreate(*User) error
 
 	// TODO(ca): below methods are not implemented
 	// List() ([]*User, error)
