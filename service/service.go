@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	users "github.com/cagodoy/tenpo-users-api"
 	"github.com/cagodoy/tenpo-users-api/database"
 )
@@ -35,7 +37,22 @@ func (us *Users) GetByEmail(email string) (*users.User, error) {
 	return us.Store.UserGet(q)
 }
 
-// UserCreate ...
-func (us *Users) UserCreate(u *users.User) error {
+// Create ...
+func (us *Users) Create(u *users.User) error {
 	return us.Store.UserCreate(u)
+}
+
+// List ...
+func (us *Users) List() ([]*users.User, error) {
+	return nil, errors.New("method is not implemented")
+}
+
+// Update ...
+func (us *Users) Update(*users.User) error {
+	return errors.New("methods is not implemented")
+}
+
+// Delete ...
+func (us *Users) Delete(*users.User) error {
+	return errors.New("method is not implemented")
 }
