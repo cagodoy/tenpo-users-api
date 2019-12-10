@@ -1,4 +1,4 @@
-# USERS-API
+# Users-API
 
 Microservice implemented in Golang that stores user information into postgres DB.
 
