@@ -14,6 +14,7 @@ Microservice implemented in Golang that stores user information into postgres DB
  created_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP
  updated_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP
  deleted_at | timestamp with time zone |           |          |
+
 Indexes:
     "users_pkey" PRIMARY KEY, btree (id)
 ```
