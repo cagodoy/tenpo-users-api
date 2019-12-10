@@ -32,11 +32,11 @@ message User {
 }
 
 service UsersService {
-	rpc Get(GetRequest) returns (GetResponse) {}
-	rpc GetByEmail(GetByEmailRequest) returns (GetByEmailResponse) {}
+  rpc Get(GetRequest) returns (GetResponse) {}
+  rpc GetByEmail(GetByEmailRequest) returns (GetByEmailResponse) {}
   rpc Create(CreateRequest) returns (CreateResponse) {}
-	rpc VerifyPassword(VerifyPasswordRequest) returns (VerifyPasswordResponse)  {}
-
+  rpc VerifyPassword(VerifyPasswordRequest) returns (VerifyPasswordResponse)  {}
+  
   // TODO(ca): below methods are not implemented.
   // rpc List(ListRequest) returns (ListResponse) {}
   // rpc Update(UpdateRequest) returns (UpdateResponse) {}
