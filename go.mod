@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/Masterminds/squirrel v1.1.0
+	github.com/cagodoy/tenpo-challenge v0.0.0-20191210011323-ddb37812a226
 	github.com/cagodoy/tenpo-services v0.0.0-20191209203109-9a4acd1b5b64
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/lib/pq v1.2.0

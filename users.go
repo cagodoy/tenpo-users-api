@@ -3,7 +3,7 @@ package users
 import (
 	"time"
 
-	pb "github.com/cagodoy/tenpo-services/protos/go"
+	pb "github.com/cagodoy/tenpo-challenge/proto/go"
 )
 
 // User ...

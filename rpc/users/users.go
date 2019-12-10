@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/cagodoy/tenpo-services/protos/go"
+	pb "github.com/cagodoy/tenpo-challenge/proto/go"
 	users "github.com/cagodoy/tenpo-users-api"
 	"github.com/cagodoy/tenpo-users-api/database"
 	"github.com/cagodoy/tenpo-users-api/service"
