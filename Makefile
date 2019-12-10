@@ -1,7 +1,18 @@
+#
+# SO variables
+#
+# GITHUB_USER
+# GITHUB_TOKEN
+#
+
+#
+# Internal variables
+#
 VERSION=0.0.1
 SVC=tenpo-users-api
-BIN=$(PWD)/bin/$(SVC)
 BIN_PATH=$(PWD)/bin
+BIN=$(BIN_PATH)/$(SVC)
+GITHUB_REGISTRY_URL=docker.pkg.github.com/$(GITHUB_USER)/$(SVC)
 
 clean c:
 	@echo "[clean] Cleaning bin folder..."
@@ -33,5 +44,14 @@ add-migration am:
 migrations m:
 	@echo "[migrations] Runing migrations..."
 	@cd database/migrations && goose postgres $(DSN) up
+
+docker-login dl:
+	@echo "[docker] Login to docker..."
+	@docker login docker.pkg.github.com -u $(GITHUB_USER) -p $(GITHUB_TOKEN)
+
+push p: linux docker docker-login
+	@echo "[docker] pushing $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)"
+	@docker tag $(SVC):$(VERSION) $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)
+	@docker push $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)
 
 .PHONY: clean c run r build b linux l wait-db wd docker d add-migration am migrations m
