@@ -31,12 +31,12 @@ linux l:
 	@cd cmd && GOOS=linux GOARCH=amd64 go build -o $(BIN)
 
 docker d:
-	@echo "[copy] Copy parent bin..."
-	@cp ../../bin/goose ../../bin/wait-db bin
+	# @echo "[copy] Copy parent bin..."
+	# @cp ../../bin/goose ../../bin/wait-db bin
 	@echo "[docker] Building image..."
 	@docker build -t $(SVC):$(VERSION) .
-	@echo "[remove] Removing parent bin..."
-	@rm bin/goose bin/wait-db
+	# @echo "[remove] Removing parent bin..."
+	# @rm bin/goose bin/wait-db
 
 add-migration am: 
 	@echo "[add-migration] Adding migration"
@@ -55,4 +55,13 @@ push p: linux docker docker-login
 	@docker tag $(SVC):$(VERSION) $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)
 	@docker push $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)
 
-.PHONY: clean c run r build b linux l docker d add-migration am migrations m
+compose co:
+	@echo "[docker-compose] Running docker-compose..."
+	@docker-compose build
+	@docker-compose up
+
+stop s: 
+	@echo "[docker-compose] Stopping docker-compose..."
+	@docker-compose down
+
+.PHONY: clean c run r build b linux l docker d add-migration am migrations m compose co stop s
