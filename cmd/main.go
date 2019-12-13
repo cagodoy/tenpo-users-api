@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	pb "github.com/cagodoy/tenpo-challenge/proto/go"
+	pb "github.com/cagodoy/tenpo-challenge/proto"
 	_ "github.com/lib/pq"
 )
 
