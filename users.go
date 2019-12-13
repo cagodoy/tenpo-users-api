@@ -21,7 +21,7 @@ type User struct {
 type Service interface {
 	Getter
 	Create(*User) error
-	List() ([]*User, error)
+	UserList() ([]*User, error)
 
 	// TODO(ca): below methods are not implemented
 	Update(*User) error

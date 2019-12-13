@@ -42,11 +42,6 @@ func (us *Users) Create(u *users.User) error {
 	return us.Store.UserCreate(u)
 }
 
-// List ...
-func (us *Users) List() ([]*users.User, error) {
-	return nil, errors.New("method is not implemented")
-}
-
 // Update ...
 func (us *Users) Update(*users.User) error {
 	return errors.New("methods is not implemented")
@@ -57,7 +52,7 @@ func (us *Users) Delete(*users.User) error {
 	return errors.New("method is not implemented")
 }
 
-// List ...
-func (us *Users) List() ([]*users.User, error) {
+// UserList ...
+func (us *Users) UserList() ([]*users.User, error) {
 	return us.Store.UserList()
 }

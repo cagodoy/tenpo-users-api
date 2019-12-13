@@ -251,11 +251,11 @@ func (us *Service) UserVerifyPassword(ctx context.Context, gr *pb.UserVerifyPass
 	return res, nil
 }
 
-// List return a collection of users.
-func (us *Service) List(ctx context.Context, gr *pb.UserListRequest) (*pb.UserListResponse, error) {
+// UserList return a collection of users.
+func (us *Service) UserList(ctx context.Context, gr *pb.UserListRequest) (*pb.UserListResponse, error) {
 	fmt.Println(fmt.Sprintf("[GRPC][UsersService][List][Request] empty = %v", ""))
 	//TODO(ca): check bdd connection
-	listedUsers, err := us.usersSvc.List()
+	listedUsers, err := us.usersSvc.UserList()
 	if err != nil {
 		fmt.Println(fmt.Sprintf("[GRPC][UsersService][List][Error] %v", err))
 		return &pb.UserListResponse{
