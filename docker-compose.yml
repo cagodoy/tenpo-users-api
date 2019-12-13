@@ -9,7 +9,7 @@ services:
   # USERS SERVICE
   #
   users-postgres:
-    container_name: postgres
+    container_name: users-postgres
     image: postgres
     volumes:
       - users-postgres-data:/var/lib/postgresql/data
