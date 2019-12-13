@@ -3,7 +3,7 @@ package users
 import (
 	"time"
 
-	pb "github.com/cagodoy/tenpo-challenge/proto/go"
+	pb "github.com/cagodoy/tenpo-challenge/proto"
 )
 
 // User ...
@@ -21,9 +21,9 @@ type User struct {
 type Service interface {
 	Getter
 	Create(*User) error
+	Select() ([]*User, error)
 
 	// TODO(ca): below methods are not implemented
-	List() ([]*User, error)
 	Update(*User) error
 	Delete(*User) error
 }
