@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/cagodoy/tenpo-challenge/proto/go"
+	pb "github.com/cagodoy/tenpo-challenge/proto"
 	users "github.com/cagodoy/tenpo-users-api"
 	"github.com/cagodoy/tenpo-users-api/database"
 	"github.com/cagodoy/tenpo-users-api/service"
@@ -29,7 +29,6 @@ func New(store database.Store) *Service {
 func (us *Service) UserGet(ctx context.Context, gr *pb.UserGetRequest) (*pb.UserGetResponse, error) {
 	id := gr.GetUserId()
 	fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][Get][Request] id = %v", id))
-
 	user, err := us.usersSvc.GetByID(id)
 	if err != nil {
 		fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][Get][Error] %v", err))
@@ -43,11 +42,9 @@ func (us *Service) UserGet(ctx context.Context, gr *pb.UserGetRequest) (*pb.User
 		}, nil
 	}
 
-	a := user.ToProto()
-
 	res := &pb.UserGetResponse{
 		Meta:  nil,
-		Data:  a,
+		Data:  user.ToProto(),
 		Error: nil,
 	}
 
@@ -80,7 +77,7 @@ func (us *Service) UserGetByEmail(ctx context.Context, gr *pb.UserGetByEmailRequ
 			Data: nil,
 			Error: &pb.Error{
 				Code:    404,
-				Message: "user not found",
+				Message: "user not fousnd",
 			},
 		}, nil
 	}
@@ -112,7 +109,7 @@ func (us *Service) UserCreate(ctx context.Context, gr *pb.UserCreateRequest) (*p
 		}, nil
 	}
 
-	user, err := us.usersSvc.GetByEmail(email)
+	_, err := us.usersSvc.GetByEmail(email)
 	if err != nil {
 		name := gr.GetData().GetName()
 		if name == "" {
@@ -181,10 +178,14 @@ func (us *Service) UserCreate(ctx context.Context, gr *pb.UserCreateRequest) (*p
 	}
 
 	res := &pb.UserCreateResponse{
-		Meta:  nil,
-		Data:  user.ToProto(),
-		Error: nil,
+		Meta: nil,
+		Data: nil,
+		Error: &pb.Error{
+			Code:    400,
+			Message: "user already exists",
+		},
 	}
+
 	fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][Create][Response] %v", res))
 	return res, nil
 }
@@ -196,7 +197,6 @@ func (us *Service) UserVerifyPassword(ctx context.Context, gr *pb.UserVerifyPass
 	if email == "" {
 		fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][VerifyPassword][Error] %v", "email user param is empty"))
 		return &pb.UserVerifyPasswordResponse{
-			Meta:  nil,
 			Valid: false,
 			Error: &pb.Error{
 				Code:    400,
@@ -209,7 +209,6 @@ func (us *Service) UserVerifyPassword(ctx context.Context, gr *pb.UserVerifyPass
 	if password == "" {
 		fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][VerifyPassword][Error] %v", "password user param is empty"))
 		return &pb.UserVerifyPasswordResponse{
-			Meta:  nil,
 			Valid: false,
 			Error: &pb.Error{
 				Code:    400,
@@ -222,7 +221,6 @@ func (us *Service) UserVerifyPassword(ctx context.Context, gr *pb.UserVerifyPass
 	if err != nil {
 		fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][VerifyPassword][Error] %v", "user not found"))
 		return &pb.UserVerifyPasswordResponse{
-			Meta:  nil,
 			Valid: false,
 			Error: &pb.Error{
 				Code:    404,
@@ -235,21 +233,50 @@ func (us *Service) UserVerifyPassword(ctx context.Context, gr *pb.UserVerifyPass
 	if err != nil {
 		fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][VerifyPassword][Error] %v", "invalid password"))
 		return &pb.UserVerifyPasswordResponse{
-			Meta:  nil,
 			Valid: false,
 			Error: &pb.Error{
-				Code:    403,
+				Code:    400,
 				Message: "invalid password",
 			},
 		}, nil
 	}
 
+	fmt.Println(999888777)
 	res := &pb.UserVerifyPasswordResponse{
-		Meta:  nil,
 		Valid: true,
 		Error: nil,
 	}
 
 	fmt.Println(fmt.Sprintf("[gRPC][TenpoUsersService][VerifyPassword][Response] %v", res))
+	return res, nil
+}
+
+// List return a collection of users.
+func (us *Service) List(ctx context.Context, gr *pb.UserListRequest) (*pb.UserListResponse, error) {
+	fmt.Println(fmt.Sprintf("[GRPC][UsersService][List][Request] empty = %v", ""))
+	//TODO(ca): check bdd connection
+	listedUsers, err := us.usersSvc.List()
+	if err != nil {
+		fmt.Println(fmt.Sprintf("[GRPC][UsersService][List][Error] %v", err))
+		return &pb.UserListResponse{
+			Data: nil,
+			Error: &pb.Error{
+				Code:    500,
+				Message: err.Error(),
+			},
+		}, nil
+	}
+
+	data := make([]*pb.User, 0)
+	for _, user := range listedUsers {
+		data = append(data, user.ToProto())
+	}
+
+	res := &pb.UserListResponse{
+		Data:  data,
+		Error: nil,
+	}
+
+	fmt.Println(fmt.Sprintf("[GRPC][UsersService][List][Response] %v", res))
 	return res, nil
 }

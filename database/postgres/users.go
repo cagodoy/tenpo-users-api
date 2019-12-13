@@ -66,3 +66,31 @@ func (us *UserStore) UserCreate(u *users.User) error {
 
 	return nil
 }
+
+// UserList ...
+func (us *UserStore) UserList() ([]*users.User, error) {
+	query := squirrel.Select("*").From("users").Where("deleted_at is null")
+
+	sql, args, err := query.PlaceholderFormat(squirrel.Dollar).ToSql()
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := us.Store.Queryx(sql, args...)
+	if err != nil {
+		return nil, err
+	}
+
+	uu := make([]*users.User, 0)
+
+	for rows.Next() {
+		u := &users.User{}
+		if err := rows.StructScan(u); err != nil {
+			return nil, err
+		}
+
+		uu = append(uu, u)
+	}
+
+	return uu, nil
+}

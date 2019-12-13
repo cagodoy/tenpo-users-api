@@ -56,3 +56,8 @@ func (us *Users) Update(*users.User) error {
 func (us *Users) Delete(*users.User) error {
 	return errors.New("method is not implemented")
 }
+
+// List ...
+func (us *Users) List() ([]*users.User, error) {
+	return us.Store.UserList()
+}

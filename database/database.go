@@ -10,9 +10,9 @@ import (
 type Store interface {
 	UserGet(*users.Query) (*users.User, error)
 	UserCreate(*users.User) error
+	UserList() ([]*users.User, error)
 
 	// TODO(ca): below methods are not implemented
-	// List() ([]*users.User, error)
 	// Update(*users.User) error
 	// Delete(*users.User) error
 }
