@@ -31,12 +31,23 @@ FROM alpine
 WORKDIR /src/tenpo-users-api
 
 # Install dependencies
-RUN apk add --update ca-certificates
+RUN apk add --update ca-certificates wget
 
 # Copy binaries
 COPY --from=builder /go/src/github.com/cagodoy/tenpo-users-api/bin/tenpo-users-api /usr/bin/tenpo-users-api
+
+# # Copy goose migration tool and add permission
+# RUN wget https://raw.githubusercontent.com/cagodoy/tenpo-challenge/master/bin/goose -o /usr/bin/goose
+# RUN chmod 777 /usr/bin/goose
+
+# # Copy wait-db util and add permission
+# RUN wget https://raw.githubusercontent.com/cagodoy/tenpo-challenge/master/bin/wait-db -o /usr/bin/wait-db
+# RUN chmod 777 /usr/bin/wait-db
+
 COPY bin/goose /usr/bin/goose
 COPY bin/wait-db /usr/bin/wait-db
+
+# Copy all database migrations
 COPY database/migrations/* /src/tenpo-users-api/migrations/
 
 # Expose service port
