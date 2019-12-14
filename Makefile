@@ -30,14 +30,6 @@ linux l:
 	@echo "[build-linux] Building service..."
 	@cd cmd && GOOS=linux GOARCH=amd64 go build -o $(BIN)
 
-docker d:
-	# @echo "[copy] Copy parent bin..."
-	# @cp ../../bin/goose ../../bin/wait-db bin
-	@echo "[docker] Building image..."
-	@docker build -t $(SVC):$(VERSION) .
-	# @echo "[remove] Removing parent bin..."
-	# @rm bin/goose bin/wait-db
-
 add-migration am: 
 	@echo "[add-migration] Adding migration"
 	@goose -dir "./database/migrations" create $(name) sql
@@ -46,6 +38,10 @@ migrations m:
 	@echo "[migrations] Runing migrations..."
 	@cd database/migrations && goose postgres $(DSN) up
 
+docker d:
+	@echo "[docker] Building image..."
+	@docker build -t $(SVC):$(VERSION) .
+	
 docker-login dl:
 	@echo "[docker] Login to docker..."
 	@docker login docker.pkg.github.com -u $(GITHUB_USER) -p $(GITHUB_TOKEN)
