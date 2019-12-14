@@ -241,7 +241,6 @@ func (us *Service) UserVerifyPassword(ctx context.Context, gr *pb.UserVerifyPass
 		}, nil
 	}
 
-	fmt.Println(999888777)
 	res := &pb.UserVerifyPasswordResponse{
 		Valid: true,
 		Error: nil,
