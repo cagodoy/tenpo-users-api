@@ -5,18 +5,20 @@ Microservice implemented in Golang that stores user information into postgres DB
 ## Table
 
 ```
-   Column   |           Type           | Collation | Nullable |              Default
-------------+--------------------------+-----------+----------+-----------------------------------
- id         | integer                  |           | not null | nextval('users_id_seq'::regclass)
+   Column   |           Type           | Collation | Nullable |      Default
+------------+--------------------------+-----------+----------+-------------------
+ id         | uuid                     |           | not null | gen_random_uuid()
  email      | character varying(255)   |           | not null |
  name       | character varying(255)   |           | not null |
  password   | character varying(255)   |           | not null |
- created_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP
- updated_at | timestamp with time zone |           | not null | CURRENT_TIMESTAMP
+ created_at | timestamp with time zone |           |          | now()
+ updated_at | timestamp with time zone |           |          | now()
  deleted_at | timestamp with time zone |           |          |
-
 Indexes:
     "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+Triggers:
+    update_users_update_at BEFORE UPDATE ON users FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column()
 ```
 
 ## GRPC Service
@@ -37,7 +39,7 @@ service UsersService {
   rpc GetByEmail(GetByEmailRequest) returns (GetByEmailResponse) {}
   rpc Create(CreateRequest) returns (CreateResponse) {}
   rpc VerifyPassword(VerifyPasswordRequest) returns (VerifyPasswordResponse)  {}
-  
+
   // TODO(ca): below methods are not implemented.
   // rpc List(ListRequest) returns (ListResponse) {}
   // rpc Update(UpdateRequest) returns (UpdateResponse) {}

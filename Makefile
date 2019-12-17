@@ -1,8 +1,8 @@
 #
 # SO variables
 #
-# GITHUB_USER
-# GITHUB_TOKEN
+# DOCKER_USER
+# DOCKER_PASS
 #
 
 #
@@ -12,7 +12,7 @@ VERSION=0.0.4
 SVC=tenpo-users-api
 BIN_PATH=$(PWD)/bin
 BIN=$(BIN_PATH)/$(SVC)
-GITHUB_REGISTRY_URL=docker.pkg.github.com/$(GITHUB_USER)/$(SVC)
+REGISTRY_URL=$(DOCKER_USER)
 
 clean c:
 	@echo "[clean] Cleaning bin folder..."
@@ -44,12 +44,12 @@ docker d:
 	
 docker-login dl:
 	@echo "[docker] Login to docker..."
-	@docker login docker.pkg.github.com -u $(GITHUB_USER) -p $(GITHUB_TOKEN)
+	@docker login -u $(DOCKER_USER) -p $(DOCKER_PASS)
 
 push p: linux docker docker-login
-	@echo "[docker] pushing $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)"
-	@docker tag $(SVC):$(VERSION) $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)
-	@docker push $(GITHUB_REGISTRY_URL)/$(SVC):$(VERSION)
+	@echo "[docker] pushing $(REGISTRY_URL)/$(SVC):$(VERSION)"
+	@docker tag $(SVC):$(VERSION) $(REGISTRY_URL)/$(SVC):$(VERSION)
+	@docker push $(REGISTRY_URL)/$(SVC):$(VERSION)
 
 compose co:
 	@echo "[docker-compose] Running docker-compose..."
