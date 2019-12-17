@@ -53,8 +53,8 @@ service UsersService {
 
 `make linux`: build user service for linux os.
 
-`make docker .`: build docker.
+`make docker`: build docker.
 
-`docker run -it -p 5020:5020 tenpo-users`: run docker.
+`docker run -it -p 5020:5020 tenpo-users-api`: run docker.
 
 `PORT=<port> POSTGRES_DSN=<postgres_dsn> ./bin/tenpo-users-api`: run tenpo user service.
