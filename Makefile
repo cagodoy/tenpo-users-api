@@ -8,7 +8,7 @@
 #
 # Internal variables
 #
-VERSION=0.0.4
+VERSION=0.0.5
 SVC=tenpo-users-api
 BIN_PATH=$(PWD)/bin
 BIN=$(BIN_PATH)/$(SVC)
