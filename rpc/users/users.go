@@ -77,7 +77,7 @@ func (us *Service) UserGetByEmail(ctx context.Context, gr *pb.UserGetByEmailRequ
 			Data: nil,
 			Error: &pb.Error{
 				Code:    404,
-				Message: "user not fousnd",
+				Message: "user not found",
 			},
 		}, nil
 	}
